@@ -1,0 +1,44 @@
+@import '../theme/typography.scss';
+
+:host {
+    .dashborad{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: min(55rem, 100vh);
+
+        @media (max-width: 991px) {
+            align-items: flex-start;
+            padding-top: 10rem;
+          }
+          &__content {
+            display: flex;
+            position: relative;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+      
+            @media (max-width: 991px) {
+              width: 100%;
+            }
+          }
+          &__title {
+            @include banner-title;
+            max-width: 90rem;
+      
+            @media (max-width: 991px) {
+              span {
+                bottom: -65%;
+              }
+            }
+      
+            @media (prefers-reduced-motion: no-preference) {
+              --fade-in-offset: 1.5rem;
+              animation: fade-in-y 0.5s;
+            }
+          }
+    }
+}
+
+  

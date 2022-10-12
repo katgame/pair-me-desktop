@@ -20,8 +20,8 @@
               <div class="col-12">
                   <div class="dashboard-categories">
                       <div class="row">
-                          <ng-container *ngFor="let category of data.terms; index as i; trackBy: topicName">
-                              <div class="col-12 col-sm-6 col-md-6 col-lg-3" *ngIf="i < maxTopics || isExpanded">
+                          <ng-container *ngFor="let category of data.terms;">
+                              <div class="col-12 col-sm-6 col-md-6 col-lg-3" >
                                   <a [routerLink]="['../category', category.slug]">
                                       <category-card [cardData]="dataTest">
                                       </category-card>

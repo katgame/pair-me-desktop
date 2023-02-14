@@ -1,0 +1,19 @@
+.col-margin-auto {
+	@media (max-width: 1365px) {
+		margin: auto;
+	}
+}
+
+mtn-row {
+	@media (min-width: 1366px) {
+		margin-top: 62px;
+	}
+
+	@media (min-width: 768px) and (max-width: 1365px) {
+		margin-top: 168px;
+	}
+
+	@media (max-width: 767px) {
+		margin-top: 96px;
+	}
+}

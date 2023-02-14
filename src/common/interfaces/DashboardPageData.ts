@@ -1,5 +1,5 @@
 export interface DashboardPageData {
-    terms: Topic[];
+    dashboard: Topic[];
   
     topics: {
       topicName: string;

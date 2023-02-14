@@ -1,0 +1,88 @@
+<div class="container">
+    <div class="row">
+        <div class="offset-xl-1 col-xl-10 pl-0 pr-0 col-sm-12">
+            <mtn-dashboard-overlay-search [searchText]="searchText" (valueChange)="onChange($event)"
+                (search)="onSearch($event)" [searchResults]="searchResults$ | async" searchResultLink=""
+                [dashboardContent]="false" searchPageLink="search" class="help-support-search-overlay">
+            </mtn-dashboard-overlay-search>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="categoryContent$ | async as data; else spinner" aria-level="2" tabindex="0" @fadeAnimation>
+
+    <div class="banner" [style.background-image]="'url(' + data.top_hero.image + ')'">
+        <div class="container h-100">
+            <div class="row position-relative">
+                <div class="col-12">
+                    <div class="heading-column">
+                        <h1 class="font-brighter-bold" role="heading" tabindex="0">dashboard & Conditions</h1>
+                    </div>
+                </div>
+                <div class="col d-flex justify-content-around flex-column">
+                    <mtn-input-search class="help-support-search">
+                        <input mtnInputSearch #search placeholder="Search our dashboard & Conditions for assistance..."
+                            [(ngModel)]="searchText" />
+                        <mtn-icon class="search-icon" [name]="'icSearch'"></mtn-icon>
+                    </mtn-input-search>
+                    <a [routerLink]="['../../archives']" class="vivid-button vivid-button-ghost-night"
+                        tabindex="0">Archives</a>
+                    <h2 class="font-heading-28 font-brighter-bold font-white d-block text-center" tabindex="0">{{
+                        data.top_hero.heading }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="dashboard-heading">
+                        <a href="../dashboard-and-conditions/" tabindex="0">
+                            <svg width="18" height="12" xmlns="http://www.w3.org/2000/svg">
+                                <g stroke="#232323" stroke-width="2" fill="none" fill-rule="evenodd"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M5 10L1 6l4-4-4 4zM17 6H1"></path>
+                                </g>
+                            </svg>
+                            Back
+                        </a>
+                        <div *ngIf="data.category" tabindex="0">
+                            <h2>{{ formatTopic(data.category.topic) }}</h2>
+                            <p>{{ data.category.item_count }} items</p>
+                        </div>
+                        <div *ngIf="data.dashboard">
+                            <h2>{{ formatTopic(data.dashboard.topic) }}</h2>
+                            <p>{{ data.dashboard.item_count }} items</p>
+                        </div>
+
+                    </div>
+                    <div class="dashboard-items" tabindex="0">
+                        <div *ngFor="let article of items">
+                            <a [routerLink]="['./../../content', article.slug]" class="dashboard-item">
+                                <span class="title">{{ article.title }}</span>
+                                <mtn-icon name="chevronRight"></mtn-icon>
+                            </a>
+                        </div>
+                        <div class="card-footer pb-0 pt-3">
+                            <mtn-pagination [items]="allItems" [initialPage]="initialPage"
+                                (changePage)="onChangePage($event)" (currentPage)="getCurrentPage($event)">
+                            </mtn-pagination>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loading spinner -->
+<ng-template #spinner>
+    <div class="col" @fadeAnimation>
+        <div class="spinner-progress">
+            <div class="spinner"></div>
+        </div>
+    </div>
+</ng-template>

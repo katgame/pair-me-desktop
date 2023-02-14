@@ -10,7 +10,7 @@ export class PairmeService {
 
 
   public getCategories<T>(categoryId: string): Observable<T> {
-    return this.http.get<T>('pairme://Category', { params: { categoryId } });
+    return this.http.get<T>('https://7ht87pua1m.execute-api.af-south-1.amazonaws.com/Prod/api/Categories');
   }
 
 }

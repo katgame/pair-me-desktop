@@ -1,0 +1,71 @@
+<div class="container">
+    <div class="row">
+        <div class="offset-xl-1 col-xl-10 pl-0 pr-0 col-sm-12">
+            <mtn-dashboard-overlay-search [searchText]="searchText" (valueChange)="onChange($event)"
+                (search)="onSearch($event)" [searchResults]="searchResults$ | async" searchResultLink=""
+                [dashboardContent]="true" searchPageLink="search" class="help-support-search-overlay">
+            </mtn-dashboard-overlay-search>
+        </div>
+    </div>
+</div>
+
+<div class="banner" aria-level="1" tabindex="0"
+    [style.background-image]="'url(' + 'https://onlinecms.mtn.co.za/sites/default/files/mtn-dashboard-conditions-header.jpeg' + ')'">
+    <div class="container h-100">
+        <div class="row position-relative">
+            <div class="col-12">
+                <div class="heading-column">
+                    <h1 class="font-brighter-bold" role="heading" tabindex="0">dashboard & Conditions</h1>
+                </div>
+            </div>
+            <div class="col d-flex justify-content-around flex-column">
+                <mtn-input-search class="help-support-search">
+                    <input mtnInputSearch #search placeholder="Search our dashboard & Conditions for assistance..."
+                        [(ngModel)]="searchText" />
+                    <mtn-icon class="search-icon" [name]="'icSearch'"></mtn-icon>
+                </mtn-input-search>
+                <a [routerLink]="['../../archives']" class="vivid-button vivid-button-ghost-night"
+                    tabindex="0">Archives</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="dashboard-content" *ngIf="dashboardContent$ | async as data; else spinner" @fadeAnimation>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-3">
+                <div class="dashboard-nav">
+                    <dashboard-nav [backLinkUrl]="categoryBackLink" [backLinkText]="backLinkText" (click)="onBack()"
+                        tabindex="0" [contentNavItems]="getNavLinks(data)"></dashboard-nav>
+                </div>
+            </div>
+            <div class="col-12 col-md-12 col-lg-9" tabindex="0">
+                <div class="dashboard-body" tabindex="0">
+                    <h1 tabindex="0">{{ data.title }}</h1>
+                    <div *ngIf="data.sections && data.sections !== null">
+                        <div *ngFor="let section of data.sections">
+                            <dashboard-content-item [content]="section.section" tabindex="0" [simply]="section.simply"
+                                [slug]="section.slug">
+                            </dashboard-content-item>
+                        </div>
+                    </div>
+                    <div *ngIf="data.body && data.body !== null">
+                        <dashboard-content-item [content]="data.body" [slug]="'dashboard-and-conditions'">
+                        </dashboard-content-item>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loading spinner -->
+<ng-template #spinner>
+    <div class="col" @fadeAnimation>
+        <div class="spinner-progress">
+            <div class="spinner"></div>
+        </div>
+    </div>
+</ng-template>

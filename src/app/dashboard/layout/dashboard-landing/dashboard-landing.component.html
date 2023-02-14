@@ -1,0 +1,151 @@
+<div class="container">
+    <div class="row">
+        <div class="offset-xl-1 col-xl-10 pl-0 pr-0 col-sm-12">
+            <mtn-dashboard-overlay-search [searchText]="searchText" (valueChange)="onChange($event)"
+                (search)="onSearch($event)" [searchResults]="searchResults$ | async" searchResultLink=""
+                [dashboardContent]="false" searchPageLink="search" class="help-support-search-overlay">
+            </mtn-dashboard-overlay-search>
+
+        </div>
+    </div>
+</div>
+
+<div *ngIf="landingPageData$ | async as data;  else spinner" @fadeAnimation>
+
+    <div class="banner" [style.background-image]="'url(' + data.top_hero.image + ')'">
+        <div class="container h-100">
+            <div class="row position-relative">
+                <div class="col-12">
+                    <div class="heading-column">
+                        <h1 class="font-brighter-bold" aria-level="1" tabindex="0">dashboard & Conditions</h1>
+                    </div>
+                </div>
+                <div class="col d-flex justify-content-around flex-column">
+                    <mtn-input-search class="help-support-search">
+                        <input mtnInputSearch #search placeholder=" Search our dashboard & Conditions for assistance..."
+                            [(ngModel)]="searchText" />
+                        <mtn-icon class="search-icon" [name]="'icSearch'"></mtn-icon>
+                    </mtn-input-search>
+                    <a [routerLink]="['archives']" class="vivid-button vivid-button-ghost-night"
+                        tabindex="0">Archives</a>
+                    <h2 class="font-heading-28 font-brighter-bold font-white d-block text-center" tabindex="0">{{
+                        data.top_hero.heading }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- dashboard categories -->
+    <div class="dashboard-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="dashboard-categories">
+                        <div class="row">
+                            <ng-container *ngFor="let category of data.dashboard; index as i; trackBy: topicName"
+                                tabindex="0">
+                                <div class="col-12 col-sm-6 col-md-6 col-lg-3" *ngIf="i < maxTopics || isExpanded">
+                                    <a [routerLink]="['../category', category.slug]">
+                                        <vivid-icon-card [icon]="category.icon" [title]="category.topic"
+                                            [description]="category.item_count">
+                                        </vivid-icon-card>
+                                    </a>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="showExpandButton">
+        <div class="col d-flex justify-content-center mt-5">
+            <div (click)="isExpanded = !isExpanded">
+                <mtn-icon class="btn-show" *ngIf="isExpanded" name="collaps"></mtn-icon>
+                <mtn-icon class="btn-show" *ngIf="!isExpanded" name="expand"></mtn-icon>
+                <p class="btn-show-text" *ngIf="!isExpanded">show all</p>
+                <p class="btn-show-text" *ngIf="isExpanded">show less</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- dashboard help -->
+    <div class="dashboard-help">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="dashboard-help-container">
+                        <div class="row dashboard-help-container-row">
+                            <div class="col-12  col-lg-5 offset-lg-1">
+                                <div class="dashboard-help-container-title" tabindex="0">Still can't find what you're
+                                    looking for? We can
+                                    help.</div>
+                                <ul>
+                                    <li>
+                                        <img
+                                            src="https://dev.onlinecms.mtn.co.za/sites/default/files/2021-08/phone.svg" />
+                                        <div tabindex="0">
+                                            <span>MTN network</span>
+                                            <a href="tel:135">135</a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <img
+                                            src="https://dev.onlinecms.mtn.co.za/sites/default/files/2021-08/phone.svg" />
+                                        <div tabindex="0">
+                                            <span>Other network</span>
+                                            <a href="tel:083135">083 135</a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                      <svg width="22px" height="32px" viewBox="0 0 22 16" version="1.1"
+                                           xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                            <title>DE7456E8-2021-4E37-B2DE-BDBF4BF51A0E</title>
+                                            <g id="Detailed-Usage-report-12/10/20" stroke="none" stroke-width="1"
+                                                fill="currentColor" fill-rule="evenodd">
+                                                <g id="Overview-1-1" transform="translate(-1550.000000, -551.000000)"
+                                                    fill="currentColor">
+                                                    <g id="Group-19" transform="translate(380.000000, 545.000000)">
+                                                        <g id="Group-25" transform="translate(1005.000000, 3.000000)">
+                                                            <g id="noun_Email_1569998"
+                                                                transform="translate(165.000000, 3.000000)">
+                                                                <path
+                                                                    d="M19.5048388,-2.22044605e-14 C20.8067464,-2.22044605e-14 21.8877227,1.02889696 21.9721178,2.31104874 L21.9774205,2.47258065 L21.9774205,13.3112903 C21.9774205,14.6132001 20.9485205,15.6941734 19.6663705,15.7785682 L19.5048388,15.783871 L2.47258052,15.783871 C1.17067316,15.783871 0.089697724,14.7549742 0.00530274086,13.4728222 L7.10542736e-15,13.3112903 L7.10542736e-15,2.47258065 C7.10542736e-15,1.1706707 1.02889914,0.0896975274 2.31104889,0.00530272906 L2.47258052,-2.22044605e-14 L19.5048388,-2.22044605e-14 Z M20.1290324,3.30659871 L12.6710988,10.1957025 C11.7702137,11.0273201 10.3756984,11.0672942 9.42863133,10.3144413 L9.29004476,10.1955671 L1.848,3.30659871 L1.84838697,13.3112903 C1.84838697,13.6380623 2.06718654,13.8865658 2.37702543,13.9290477 L2.47258052,13.9354839 L19.5048388,13.9354839 C19.8316078,13.9354839 20.0801138,13.7166868 20.1225962,13.4068461 L20.1290324,13.3112903 L20.1290324,3.30659871 Z M18.984,1.84759871 L2.984,1.84759871 L10.5502191,8.83826274 C10.8290083,9.09602932 11.051905,9.12183486 11.3199912,8.91553759 L11.4111657,8.83817523 L18.984,1.84759871 Z"
+                                                                    id="Combined-Shape"></path>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                        <div tabindex="0">
+                                            <span>General queries</span>
+                                            <a href="mailto:customercare@mtn.com">customercare@mtn.com</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-12 col-lg-5 offset-lg-1">
+                                <div class="image">
+                                    <img
+                                        src="https://onlinecms.mtn.co.za/sites/default/files/cbu-online-portals/dashboard-girl.png" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- Loading spinner -->
+<ng-template #spinner>
+    <div class="col" @fadeAnimation>
+        <div class="spinner-progress">
+            <div class="spinner"></div>
+        </div>
+    </div>
+</ng-template>

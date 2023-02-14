@@ -16,7 +16,6 @@ import { environment } from '../environments/environment';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    DashboardBlocksModule,
     AppStateModule,
     HttpClientModule,
     CommonModule

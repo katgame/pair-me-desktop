@@ -1,0 +1,10 @@
+<div class="h-56 sm:h-96"></div>
+
+<div class="container">
+	<div class="row">
+		<div class="offset-xl-1 col-xl-10 pl-0 pr-0 col-sm-12">
+			<mtn-search-results searchResultLink="../content" [searchResults]="searchResults$ | async"
+				(search)="onSearch($event)"></mtn-search-results>
+		</div>
+	</div>
+</div>

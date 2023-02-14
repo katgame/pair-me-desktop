@@ -1,14 +1,9 @@
 import { Component, ElementRef, Input, OnDestroy, OnInit, TrackByFunction, ViewChild } from '@angular/core';
-import { HelpTopic, MetaTags } from '@mtn/types';
-import { IconRegistryService, mtnIconArrowBack, mtnIconChevronRight, mtnIconIcSearch } from '@mtn-components/vivid';
 import { Observable, Subscription } from 'rxjs';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { actions as commonActions, selectors as commonSelectors } from '@mtn/data/common';
-import { actions as dashboardActions, selectors as dashboardSelectors } from '../../app/state';
+import { actions as dashboardActions, selectors as dashboardSelectors } from '../../../state/dashboard';
 
 import { ActivatedRoute } from '@angular/router';
-import { DataService } from '../../app/service/data.service';
-import { MetaService } from '@mtn/utils/meta';
 import { Store } from '@ngrx/store';
 import { tap } from 'rxjs/operators';
 
@@ -33,15 +28,12 @@ export class dashboardCategoryComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   @ViewChild('search') public searchElement!: ElementRef<HTMLInputElement>;
   @Input() pageUrl!: string;
-  public meta$ = this.store.select(commonSelectors.meta);
   public categoryContent$!: Observable<any>;
 
-  constructor(private activatedRoute: ActivatedRoute, iconRegistryService: IconRegistryService, private store: Store<any>, private meta: MetaService, private data: DataService) {
+  constructor(private activatedRoute: ActivatedRoute, private store: Store<any>) {
     this.store.dispatch(dashboardActions.reset());
-    iconRegistryService.registerIcons([mtnIconArrowBack, mtnIconChevronRight, mtnIconIcSearch]);
-    this.store.dispatch(dashboardActions.fetchLandingData());
+
     const pageName = 'dashboard-and-conditions';
-    this.store.dispatch(commonActions.fetchMetaData({ pageName }));
     this.pageSize = 10;
     this.initialPage = 1;
     window.scroll(0, 0);
@@ -106,7 +98,7 @@ export class dashboardCategoryComponent implements OnInit, OnDestroy {
             if (content.category) {
               const data: MetaTags = {
                 metatag: [],
-                pageTitle: content.category.topic + ' | MTN dashboard & Conditions - MTN South Africa',
+                pageTitle: content.category.topic + ' | dashboarddashboard & Conditions - dashboardSouth Africa',
                 body: [{ value: '', format: '', summary: '' }],
               };
               data.metatag = content.meta;

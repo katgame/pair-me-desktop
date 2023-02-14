@@ -1,12 +1,9 @@
 import { ActivatedRoute, Router } from "@angular/router";
 import { AfterViewInit, Component, ViewChild } from "@angular/core";
-import { IconRegistryService, mtnIconIcSearch } from "@mtn-components/vivid";
-import { actions as dashboardActions, selectors as dashboardSelectors } from "../../app/state";
+import { actions as dashboardActions, selectors as dashboardSelectors } from "../../../state/dashboard";
 import { map, tap } from "rxjs/operators";
 
-import { SearchResultsComponent } from "@mtn/feature/help/search";
 import { Store } from "@ngrx/store";
-import { actions as commonActions } from "@mtn/data/common";
 
 @Component({
   selector: 'mtn-help-search-page',
@@ -26,11 +23,8 @@ export class dashboardHelpSearchComponent implements AfterViewInit {
     })
   );
 
-  constructor(icons: IconRegistryService, private router: Router, private route: ActivatedRoute, private store: Store) {
+  constructor(private router: Router, private route: ActivatedRoute, private store: Store) {
     const pageName = 'search-results';
-    this.store.dispatch(commonActions.fetchMetaData({ pageName }));
-
-    icons.registerIcons([mtnIconIcSearch]);
 
     // Search when query params change
     route.queryParams.pipe(map(({ s }) => s)).subscribe((searchText) => this.store.dispatch(dashboardActions.search({ searchText })));

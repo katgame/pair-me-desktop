@@ -1,15 +1,10 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, TrackByFunction, ViewChild } from '@angular/core';
-import { HelpTopic, MetaTags } from '@mtn/types';
-import { IconRegistryService, mtnIconArrowBack, mtnIconChevronRight, mtnIconIcSearch } from '@mtn-components/vivid';
 import { Observable, Subscription } from 'rxjs';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { actions as commonActions, selectors as commonSelectors } from '@mtn/data/common';
-import { actions as dashboardActions, selectors as dashboardSelectors } from '../../app/state';
+import { actions as dashboardActions, selectors as dashboardSelectors } from '../../../state/dashboard';
 import { map, tap } from 'rxjs/operators';
 
-import { DataService } from '../../app/service/data.service';
-import { MetaService } from '@mtn/utils/meta';
 import { Store } from '@ngrx/store';
 import { dashboardCategoryComponent } from '../dashboard-category/dashboard-category.component';
 
@@ -29,7 +24,7 @@ export class dashboardContentComponent implements OnInit, OnDestroy, AfterViewIn
   categoryPageUrl = '';
   // @ViewChild(dashboardSearchResultsComponent) searchResultsComponent!: dashboardSearchResultsComponent;
   //public searchResults$ = this.store.select(helpSelectors.searchResults);
-  public meta$ = this.store.select(commonSelectors.meta);
+
   public dashboardContent$!: Observable<any>;
   subscription: Subscription = new Subscription();
   public backLinkUrl = '#';
@@ -37,19 +32,11 @@ export class dashboardContentComponent implements OnInit, OnDestroy, AfterViewIn
   public navLinks = [];
   public categoryBackLink = '';
   constructor(
-    icons: IconRegistryService,
     private router: Router,
     private route: ActivatedRoute,
-    iconRegistryService: IconRegistryService,
-    private store: Store<any>,
-    private meta: MetaService,
-    private data: DataService
+    private store: Store<any>
   ) {
-    iconRegistryService.registerIcons([mtnIconArrowBack, mtnIconChevronRight, mtnIconIcSearch]);
     const pageName = 'dashboard-and-conditions';
-    this.store.dispatch(commonActions.fetchMetaData({ pageName }));
-
-    icons.registerIcons([mtnIconIcSearch]);
     route.queryParams.pipe(map(({ s }) => s)).subscribe((searchText) => this.store.dispatch(dashboardActions.search({ searchText })));
   }
 
@@ -66,7 +53,6 @@ export class dashboardContentComponent implements OnInit, OnDestroy, AfterViewIn
     this.dashboardContent$.forEach((subscription) => subscription.unsubscribe());
   }
   public ngAfterViewInit(): void {
-    this.subscription = this.data.pageURL.subscribe((message) => (this.categoryPageUrl = message));
 
     //debugger;
     // Update search text in component with value in params
@@ -102,7 +88,7 @@ export class dashboardContentComponent implements OnInit, OnDestroy, AfterViewIn
             }
             const data: MetaTags = {
               metatag: [],
-              pageTitle: content.title + ' | MTN dashboard & Conditions - MTN South Africa',
+              pageTitle: content.title + ' | dashboarddashboard & Conditions - dashboardSouth Africa',
               body: [{ value: '', format: '', summary: '' }],
             };
             data.metatag = content.meta;
@@ -116,13 +102,6 @@ export class dashboardContentComponent implements OnInit, OnDestroy, AfterViewIn
       }
     });
   }
-
-  // public ngOnDestroy() {
-  //   // This is a hack and should be moved to Vivid as soon as possible
-  //   document.body.classList.remove('mtn-modal-open');
-
-  //   this.dashboardContent$.forEach((subscription) => subscription.unsubscribe());
-  // }
 
   // Perform view-related actions when search text is changed
   public onChange(searchText: any) {
@@ -162,6 +141,5 @@ export class dashboardContentComponent implements OnInit, OnDestroy, AfterViewIn
   }
 
   onBack() {
-    //this.store.dispatch(dashboardActions.reset());
   }
 }
